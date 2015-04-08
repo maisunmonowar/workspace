@@ -1,0 +1,10 @@
+04:54:58 **** Incremental Build of configuration Debug for project stich_t1 ****
+make all 
+Building target: stich_t1
+Invoking: GCC C++ Linker
+g++ -L/usr/local/lib -o "stich_t1"  ./src/stich_t1.o   -lopencv_core -lopencv_highgui -lopencv_imgproc -lopencv_objdetect -lopencv_photo -lopencv_stitching -lopencv_video
+Finished building target: stich_t1
+ 
+
+04:54:58 Build Finished (took 257ms)
+

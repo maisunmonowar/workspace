@@ -1,0 +1,12 @@
+05:23:41 **** Incremental Build of configuration Debug for project stitch_t2 ****
+make all 
+Building target: stitch_t2
+Invoking: GCC C++ Linker
+g++ -L"/home/maisun/workspace/workspace/stich_t1" -o "stitch_t2"  ./src/stitch_t2.o   -lopencv_stitching -lopencv_features2d -lopencv_gpu -lopencv_video -lopencv_core -lopencv_highgui -lopencv_objdetect -lopencv_imgproc -lopencv_flann -lopencv_nonfree -lopencv_contrib -lopencv_calib3d -lopencv_imgcodecs -lopencv_legacy -lopencv_ml -lopencv_ocl -lopencv_photo -lopencv_shape -lopencv_superres -lopencv_videoio -lopencv_videostab
+./src/stitch_t2.o: In function `main':
+/home/maisun/workspace/workspace/stitch_t2/Debug/../src/stitch_t2.cpp:368: undefined reference to `cv::detail::SurfFeaturesFinderGpu::SurfFeaturesFinderGpu(double, int, int, int, int)'
+collect2: error: ld returned 1 exit status
+make: *** [stitch_t2] Error 1
+
+05:23:41 Build Finished (took 270ms)
+
