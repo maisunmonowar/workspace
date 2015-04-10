@@ -1,4 +1,4 @@
-06:37:36 **** Incremental Build of configuration Debug for project videoSplit_t1 ****
+11:08:39 **** Incremental Build of configuration Debug for project videoSplit_t1 ****
 make all 
 Building file: ../src/videoSplit_t1.cpp
 Invoking: GCC C++ Compiler
@@ -11,5 +11,5 @@ g++ -L"/home/maisun/workspace/workspace/stich_t1" -o "videoSplit_t1"  ./src/vide
 Finished building target: videoSplit_t1
  
 
-06:37:36 Build Finished (took 762ms)
+11:08:40 Build Finished (took 711ms)
 

@@ -11,6 +11,8 @@
 #include "opencv2/highgui/highgui.hpp"
 #include <opencv2/imgproc/imgproc.hpp>
 #include "opencv2/stitching/stitcher.hpp"
+#include <sys/types.h>
+#include <sys/stat.h>
 using namespace std;
 using namespace cv;
 vector<Mat> imgs;
@@ -18,6 +20,7 @@ string result_name = "result.jpg";
 
 int main(int argc, char* argv[])
 {
+	struct stat info;
 	VideoCapture cap(argv[1]); // open the video file for reading
 
 	if ( !cap.isOpened() )  // if not success, exit program
@@ -32,13 +35,33 @@ int main(int argc, char* argv[])
 
 	cout << "Frame per seconds : " << fps << endl;
 
-	namedWindow("MyVideo",CV_WINDOW_AUTOSIZE); //create a window called "MyVideo"
+	namedWindow("MyVideo",CV_WINDOW_KEEPRATIO); //create a window called "MyVideo"
 
 	//
 	int a = 0;
 	string name;
 
 	//
+	//
+	if( stat( "image", &info ) != 0 )
+	{
+		cout <<  "creating directory >>"  "image" ;
+		//make a dir
+					string folderName = "image";
+					string folderCreateCommand = "mkdir " + folderName;
+					system(folderCreateCommand.c_str());
+					//
+
+	}
+//	else if( info.st_mode & S_IFDIR )  // S_ISDIR() doesn't exist on my windows
+	    //direct
+		//cout << "%s is a directory\n"   "image" ;
+	//else
+	//{
+	//    cout <<  "%s is no directory\n"  "image" ;
+	//}
+
+
 
 	while(1)
 	{
@@ -52,7 +75,7 @@ int main(int argc, char* argv[])
 			break;
 		}
 		//
-		name = format("/home/maisun/workspace/workspace/splitAndStich/Debug/image/image_00%d.jpg", a);
+		name = format("image/image_00%d.jpg", a);
 		if(a%40)
 		{
 			//muri khai
@@ -74,9 +97,9 @@ int main(int argc, char* argv[])
 		}
 	}
 	a = 0;
-	for (int a=0; a<300;a++)  // a <=Count would do one too many...
+	for (int a=0; a<=1000;a++)  // a <=Count would do one too many...
 	{
-		name = format("/home/maisun/workspace/workspace/splitAndStich/Debug/image/image_00%d.jpg", a);
+		name = format("image/image_00%d.jpg", a);
 		Mat img = imread(name); // pgm implies grayscale, maybe even: imread(name,0); to return CV_8U
 		if ( img.empty() )      // please, *always check* resource-loading.
 		{
@@ -91,7 +114,8 @@ int main(int argc, char* argv[])
 	Stitcher stitcher = Stitcher::createDefault(false);
 	Stitcher::Status status = stitcher.stitch(imgs, pano);
 	imwrite(result_name, pano);
-
+	imshow("MyVideo", pano);
+	waitKey(0);
 	return 0;
 
 }

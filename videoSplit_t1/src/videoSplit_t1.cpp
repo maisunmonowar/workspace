@@ -8,13 +8,15 @@
 
 #include "opencv2/highgui/highgui.hpp"
 #include <iostream>
-
+#include <sys/types.h>
+#include <sys/stat.h>
 using namespace cv;
 using namespace std;
 
 
 int main(int argc, char* argv[])
 {
+	struct stat info;
 	VideoCapture cap(argv[1]); // open the video file for reading
 
 	if ( !cap.isOpened() )  // if not success, exit program
@@ -36,6 +38,25 @@ int main(int argc, char* argv[])
 	string name;
 
 	//
+	if( stat( "image", &info ) != 0 )
+	{
+		cout <<  "cannot access %s\n"  "image" ;
+		//make a dir
+					string folderName = "image";
+					string folderCreateCommand = "mkdir " + folderName;
+					system(folderCreateCommand.c_str());
+					//
+
+	}
+	else if( info.st_mode & S_IFDIR )  // S_ISDIR() doesn't exist on my windows
+	    cout << "%s is a directory\n"   "image" ;
+	else
+	{
+	    cout <<  "%s is no directory\n"  "image" ;
+	}
+
+
+
 
 	while(1)
 	{
@@ -48,8 +69,8 @@ int main(int argc, char* argv[])
 			cout << "Cannot read the frame from video file" << endl;
 			break;
 		}
-		//
-		name = format("/home/maisun/workspace/workspace/videoSplit_t1/Debug/image/image_00%d.jpg", a);
+
+		name = format("image/image_00%d.jpg", a);
 		if(a%40)
 		{
 			//muri khai

@@ -1,10 +1,19 @@
-06:44:56 **** Incremental Build of configuration Debug for project splitAndStich ****
+11:35:00 **** Incremental Build of configuration Debug for project splitAndStich ****
 make all 
+Building file: ../src/splitAndStich.cpp
+Invoking: GCC C++ Compiler
+g++ -I"/home/maisun/workspace/workspace/stitch_t2" -O0 -g3 -Wall -c -fmessage-length=0 -MMD -MP -MF"src/splitAndStich.d" -MT"src/splitAndStich.d" -o "src/splitAndStich.o" "../src/splitAndStich.cpp"
+../src/splitAndStich.cpp: In function ‘int main(int, char**)’:
+../src/splitAndStich.cpp:115:19: warning: unused variable ‘status’ [-Wunused-variable]
+  Stitcher::Status status = stitcher.stitch(imgs, pano);
+                   ^
+Finished building: ../src/splitAndStich.cpp
+ 
 Building target: splitAndStich
 Invoking: GCC C++ Linker
 g++ -L"/home/maisun/workspace/workspace/stitch_t2" -o "splitAndStich"  ./src/splitAndStich.o   -lopencv_core -lopencv_stitching -lopencv_highgui -lopencv_imgproc -lopencv_objdetect -lopencv_video
 Finished building target: splitAndStich
  
 
-06:44:56 Build Finished (took 207ms)
+11:35:01 Build Finished (took 1s.158ms)
 
