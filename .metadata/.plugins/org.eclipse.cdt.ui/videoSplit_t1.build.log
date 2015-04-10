@@ -1,0 +1,15 @@
+06:37:36 **** Incremental Build of configuration Debug for project videoSplit_t1 ****
+make all 
+Building file: ../src/videoSplit_t1.cpp
+Invoking: GCC C++ Compiler
+g++ -I"/home/maisun/workspace/workspace/stitch_t2" -O0 -g3 -Wall -c -fmessage-length=0 -MMD -MP -MF"src/videoSplit_t1.d" -MT"src/videoSplit_t1.d" -o "src/videoSplit_t1.o" "../src/videoSplit_t1.cpp"
+Finished building: ../src/videoSplit_t1.cpp
+ 
+Building target: videoSplit_t1
+Invoking: GCC C++ Linker
+g++ -L"/home/maisun/workspace/workspace/stich_t1" -o "videoSplit_t1"  ./src/videoSplit_t1.o   -lopencv_objdetect -lopencv_calib3d -lopencv_video -lopencv_core -lopencv_imgproc -lopencv_highgui
+Finished building target: videoSplit_t1
+ 
+
+06:37:36 Build Finished (took 762ms)
+

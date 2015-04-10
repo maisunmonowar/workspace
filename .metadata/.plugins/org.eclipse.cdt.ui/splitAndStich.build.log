@@ -1,0 +1,10 @@
+06:44:56 **** Incremental Build of configuration Debug for project splitAndStich ****
+make all 
+Building target: splitAndStich
+Invoking: GCC C++ Linker
+g++ -L"/home/maisun/workspace/workspace/stitch_t2" -o "splitAndStich"  ./src/splitAndStich.o   -lopencv_core -lopencv_stitching -lopencv_highgui -lopencv_imgproc -lopencv_objdetect -lopencv_video
+Finished building target: splitAndStich
+ 
+
+06:44:56 Build Finished (took 207ms)
+
