@@ -1,16 +1,12 @@
-11:35:00 **** Incremental Build of configuration Debug for project splitAndStich ****
+09:47:35 **** Incremental Build of configuration Debug for project riverLine ****
 make all 
-Building file: ../src/splitAndStich.cpp
+Building file: ../src/riverLine.cpp
 Invoking: GCC C++ Compiler
-g++ -I"/home/maisun/workspace/workspace/stitch_t2" -O0 -g3 -Wall -c -fmessage-length=0 -MMD -MP -MF"src/splitAndStich.d" -MT"src/splitAndStich.d" -o "src/splitAndStich.o" "../src/splitAndStich.cpp"
-../src/splitAndStich.cpp: In function ‘int main(int, char**)’:
-../src/splitAndStich.cpp:115:19: warning: unused variable ‘status’ [-Wunused-variable]
-  Stitcher::Status status = stitcher.stitch(imgs, pano);
-                   ^
-Finished building: ../src/splitAndStich.cpp
+g++ -I"/home/maisun/workspace/workspace/stitch_t2" -O0 -g3 -Wall -c -fmessage-length=0 -MMD -MP -MF"src/riverLine.d" -MT"src/riverLine.d" -o "src/riverLine.o" "../src/riverLine.cpp"
+Finished building: ../src/riverLine.cpp
  
-Building target: splitAndStich
+Building target: riverLine
 Invoking: GCC C++ Linker
-g++ -L"/home/maisun/workspace/workspace/stitch_t2" -o "splitAndStich"  ./src/splitAndStich.o   -lopencv_core -lopencv_stitching -lopencv_highgui -lopencv_imgproc -lopencv_objdetect -lopencv_video
-Finished building target: splitAndStich
+g++ -L"/home/maisun/workspace/workspace/stitch_t2" -o "riverLine"  ./src/riverLine.o   -lopencv_core -lopencv_imgproc -lopencv_highgui
+Finished building target: riverLine
  
