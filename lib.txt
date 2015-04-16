@@ -1,6 +1,6 @@
 opencv_core249d.lib
 opencv_imgproc249d.lib
-opencv_highgui29d2.lib
+opencv_highgui249d.lib
 opencv_ml249d.lib
 opencv_video249d.lib
 opencv_features2d249d.lib
