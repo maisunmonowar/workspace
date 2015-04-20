@@ -98,7 +98,7 @@ int main(int argc, char* argv[])
 		Mat img = imread(name); // pgm implies grayscale, maybe even: imread(name,0); to return CV_8U
 		if ( img.empty() )      // please, *always check* resource-loading.
 		{
-			cerr << "whaa " << name << " can't be loaded!" << endl;
+			cerr << "image file " << name << " can't be loaded!" << endl;
 			continue;
 		}
 		imgs.push_back(img);
