@@ -50,5 +50,6 @@ int main(int argc, char** argv)
     //    if(waitKey(30) >= 0) break;
     //}
     // the camera will be deinitialized automatically in VideoCapture destructor
-    return 0;
+    waitKey(0);
+    return 1;
 }
