@@ -92,7 +92,7 @@ int main(int argc, char* argv[])
 		}
 	}
 	a = 0;
-	for (int a=0; a<=1000;a++)  // a <=Count would do one too many...
+	for (int a=0; a<=10000;a++)  // a <=Count would do one too many...
 	{
 		name = format("image/image_00%d.jpg", a);
 		Mat img = imread(name); // pgm implies grayscale, maybe even: imread(name,0); to return CV_8U
