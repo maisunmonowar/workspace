@@ -36,13 +36,8 @@ int main(int argc, char* argv[])
 	cout << "Frame per seconds : " << fps << endl;
 
 	namedWindow("MyVideo",CV_WINDOW_KEEPRATIO); //create a window called "MyVideo"
-
-	//
 	int a = 0;
 	string name;
-
-	//
-	//
 	if( stat( "image", &info ) != 0 )
 	{
 		cout <<  "creating directory >>"  "image" ;
@@ -78,7 +73,7 @@ int main(int argc, char* argv[])
 		name = format("image/image_00%d.jpg", a);
 		if(a%40)
 		{
-			//muri khai
+			//nothing to do
 		}
 		else
 
@@ -88,7 +83,7 @@ int main(int argc, char* argv[])
 
 		a++;
 		//
-		imshow("MyVideo", frame); //show the frame in "MyVideo" window
+		imshow("MyVideo", frame); //show the frame in "MyVideo" window if required
 
 		if(waitKey(30) == 27) //wait for 'esc' key press for 30 ms. If 'esc' key is pressed, break loop
 		{
@@ -109,13 +104,11 @@ int main(int argc, char* argv[])
 		imgs.push_back(img);
 
 	}
-	///////////////////
 	Mat pano;
 	Stitcher stitcher = Stitcher::createDefault(false);
 	Stitcher::Status status = stitcher.stitch(imgs, pano);
 	imwrite(result_name, pano);
 	imshow("MyVideo", pano);
 	waitKey(0);
-	return 0;
-
+	return 1;
 }
