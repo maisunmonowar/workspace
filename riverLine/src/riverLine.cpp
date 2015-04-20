@@ -45,6 +45,7 @@ int main(int argc, char** argv)
         //imshow("second", edges);//debug purpose
         Canny(edges, edges, 10, 30, 3);
         imshow("result", edges);
+        imwrite("result.jpg", edges);
 
     //    if(waitKey(30) >= 0) break;
     //}
