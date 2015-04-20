@@ -56,25 +56,16 @@ int main(int, char**)
     {
         Mat image;
         cap >> image; // get a new frame from camera
-
-        ////////////////////////////
         total_pixel = image.total();
-
         	cvtColor(image, img_hsv, COLOR_BGR2HSV);
-
         	inRange(img_hsv, Scalar(green_h_l, green_s_l, green_v_l), Scalar(green_h_h, green_s_h, green_v_h), imgThresholded); //Threshold the image
         	inRange(img_hsv, Scalar(healthy_h_l, healthy_s_l, healthy_v_l), Scalar(healthy_h_h, healthy_s_h, healthy_v_h), healthyThreshold);
-
-
         	//http://stackoverflow.com/questions/7899108/opencv-get-pixel-channel-value-from-mat-image
         	for(int i = 0; i < img_hsv.rows; i++)
         	{
         		for(int j = 0; j < img_hsv.cols; j++)
         		{
         			Vec3b hsvPixel = img_hsv.at<Vec3b>(i, j);
-
-
-
         			// do something with BGR values...
         			if (hsvPixel.val[1] > green_s_l)
         			{
@@ -83,7 +74,6 @@ int main(int, char**)
         					if (hsvPixel.val[0]>green_h_l && hsvPixel.val[0]<green_h_h)
         					{
         						total_green++;
-
         						//time to fine tune
         						if (hsvPixel.val[1] > healthy_s_l)
         						{
@@ -100,54 +90,13 @@ int main(int, char**)
         			}
         		}
         	}
-        	//http://stackoverflow.com/questions/7859196/read-hsv-value-of-pixel-in-opencv
-        	/*
-          cv::MatIterator_<cv::Vec3b> it = image.begin<cv::Vec3b>(), it_end = image.end<cv::Vec3b>();
-
-        for(; it != it_end; ++it)
-        {
-        // work with pixel in here, e.g.:
-        	cv::Vec3b& pixel = *it; // reference to pixel in image
-        if (pixel[1] > 60)
-        {
-        	if (pixel[2]>30 && pixel[2]<80)
-        	{
-        		if (pixel[0]>45 && pixel[0]<80)
-        			{
-        				total_green++;
-
-        				//time to fine tune
-        				if (pixel[1] > 60)
-        				{
-        					if (pixel[2]>30 && pixel[2]<80)
-        					{
-        						if (pixel[0]>55 && pixel[0]<65)
-        							{
-        								healthy_green++;
-        							}
-        					}
-        				}
-        			}
-        	}
-        }*/
-        	/*
-        	 * cv::Vec3b& pixel = *it; // reference to pixel in image
-        pixel[0] = 0; // changes pixel in image
-        pixel[0] = 0; // H
-        pixel[1] = 0; // S
-        pixel[2] = 0; // V
-        	 */
-
-
+       	
         	percentage_green = total_green * 100.0 / total_pixel;
-        //	percentage_healthy_green= 0;
-        	//percentage_healthy_green = percentage_healthy_green + 1.0;
         	percentage_healthy_green = healthy_green * 100.0/ total_green ;
 
         	//display graphic
 
         	imshow( "Original Image", image );
-
         	imshow( "Thresholded Image", imgThresholded );
       //  	imwrite("imgThresholded.jpg", imgThresholded);
 
