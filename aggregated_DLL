@@ -1,0 +1,219 @@
+// trying to write a super program
+
+#include "stdafx.h"
+#include "Windows.h"
+#include "extcode.h"
+#include "dlltr3.h"
+#include "opencv2/opencv.hpp"
+#include <iostream>
+#include "opencv2/highgui/highgui.hpp"
+#include "opencv2/imgproc/imgproc.hpp"
+#include <fstream>
+#include "opencv2/stitching/stitcher.hpp"
+#include <sys/types.h>
+#include <sys/stat.h>
+#include <stdio.h>
+#include <string>
+#include <string.h>
+#include <stringapiset.h>
+#include <winstring.h>
+#include <xstring>
+#include <mshtml.h>
+#include <atlbase.h>
+#include <comdef.h>
+
+using namespace std;
+using namespace cv;
+
+//defining 'green'
+#define green_h_h 80
+#define green_h_l 45
+#define green_s_h 255
+#define green_s_l 30
+#define green_v_h 200
+#define green_v_l 30
+
+#define healthy_h_h 65
+#define healthy_h_l 55
+#define healthy_s_h	255
+#define healthy_s_l 30
+#define healthy_v_h 200
+#define healthy_v_l 30
+
+char argv[] = "Hello";//debugging purpose
+
+DLLIMPORT int32_t healthEstimate(double *g_percent, double *h_g_percent)
+{
+	Mat img_hsv, imgThresholded, healthyThreshold;
+	int total_pixel = 0;
+	int total_green = 0;
+	int healthy_green = 0;
+	float percentage_green = 0;
+	float percentage_healthy_green ;
+	VideoCapture cap(0); // open the default camera
+	if(!cap.isOpened())  // check if we succeeded
+		return -1;
+	Mat edges;
+	Mat image;
+	cap >> image; // get a new frame from camera
+	total_pixel = image.total();
+	cvtColor(image, img_hsv, COLOR_BGR2HSV);
+	inRange(img_hsv, Scalar(green_h_l, green_s_l, green_v_l), Scalar(green_h_h, green_s_h, green_v_h), imgThresholded); //Threshold the image
+	inRange(img_hsv, Scalar(healthy_h_l, healthy_s_l, healthy_v_l), Scalar(healthy_h_h, healthy_s_h, healthy_v_h), healthyThreshold);
+	//http://stackoverflow.com/questions/7899108/opencv-get-pixel-channel-value-from-mat-image
+	for(int i = 0; i < img_hsv.rows; i++)
+	{
+		for(int j = 0; j < img_hsv.cols; j++)
+		{
+			Vec3b hsvPixel = img_hsv.at<Vec3b>(i, j);
+			// do something with BGR values...
+			if (hsvPixel.val[1] > green_s_l)
+			{
+				if (hsvPixel.val[2]>green_v_l && hsvPixel.val[2]<green_v_h)
+				{
+					if (hsvPixel.val[0]>green_h_l && hsvPixel.val[0]<green_h_h)
+					{
+						total_green++;
+						//time to fine tune
+						if (hsvPixel.val[1] > healthy_s_l)
+						{
+							if (hsvPixel.val[2]>healthy_v_l && hsvPixel.val[2]<healthy_v_h)
+							{
+								if (hsvPixel.val[0]>healthy_h_l && hsvPixel.val[0]<healthy_h_h)
+								{
+									healthy_green++;
+								}
+							}
+						}
+					}
+				}
+			}
+		}
+	}
+
+	percentage_green = total_green * 100.0 / total_pixel;
+	percentage_healthy_green = healthy_green * 100.0/ total_green ;
+	*g_percent = percentage_green ;
+	*h_g_percent = percentage_healthy_green ;
+	// the camera will be deinitialized automatically in VideoCapture destructor
+	return 1;
+}
+
+DLLIMPORT int32_t spiltAndStitch(char pString[] )
+{
+	vector<Mat> imgs;
+	string result_name = "result.jpg";
+	struct stat info;
+	VideoCapture cap(pString); // open the video file for reading
+	if ( !cap.isOpened() )  // if not success, exit program
+	{
+		cout << "Cannot open the video file" << endl;
+		return -1;
+	}
+
+	//cap.set(CV_CAP_PROP_POS_MSEC, 300); //start the video at 300ms
+
+	double fps = cap.get(CV_CAP_PROP_FPS); //get the frames per seconds of the video
+
+	cout << "Frame per seconds : " << fps << endl;
+
+	namedWindow("MyVideo",CV_WINDOW_KEEPRATIO); //create a window called "MyVideo"
+	int a = 0;
+	string name;
+	if( stat( "image", &info ) != 0 )
+	{
+		cout <<  "creating directory >>"  "image" ;
+		//make a dir
+					string folderName = "image";
+					string folderCreateCommand = "mkdir " + folderName;
+					system(folderCreateCommand.c_str());
+					//
+
+	}
+//	else if( info.st_mode & S_IFDIR )  // S_ISDIR() doesn't exist on my windows
+	    //direct
+		//cout << "%s is a directory\n"   "image" ;
+	//else
+	//{
+	//    cout <<  "%s is no directory\n"  "image" ;
+	//}
+
+
+
+	while(1)
+	{
+		Mat frame;
+
+		bool bSuccess = cap.read(frame); // read a new frame from video
+
+		if (!bSuccess) //if not success, break loop
+		{
+			cout << "Cannot read the frame from video file" << endl;
+			break;
+		}
+		//
+		name = format("image/image_00%d.jpg", a);
+		if(a%40)
+		{
+			//nothing to do
+		}
+		else
+
+		{
+			imwrite(name, frame);
+		}
+
+		a++;
+		//
+		imshow("MyVideo", frame); //show the frame in "MyVideo" window if required
+
+		if(waitKey(30) == 27) //wait for 'esc' key press for 30 ms. If 'esc' key is pressed, break loop
+		{
+			cout << "esc key is pressed by user" << endl;
+			break;
+		}
+	}
+	a = 0;
+	for (int a=0; a<=10000;a++)  // a <=Count would do one too many...
+	{
+		name = format("image/image_00%d.jpg", a);
+		Mat img = imread(name); // pgm implies grayscale, maybe even: imread(name,0); to return CV_8U
+		if ( img.empty() )      // please, *always check* resource-loading.
+		{
+			cerr << "image file " << name << " can't be loaded!" << endl;
+			continue;
+		}
+		imgs.push_back(img);
+
+	}
+	Mat pano;
+	Stitcher stitcher = Stitcher::createDefault(false);
+	Stitcher::Status status = stitcher.stitch(imgs, pano);
+	imwrite(result_name, pano);
+	imshow("MyVideo", pano);
+	waitKey(0);
+	return 1;
+}
+
+DLLIMPORT int32_t riverLine(char pString[])
+{
+	Mat img = imread(pString);//pending issue. file path from labview
+	if (img.empty())
+	{
+		cout << "Can't read image '" << pString << "'\n";
+		return -1;
+	}
+	Mat edges;
+	namedWindow("original",WINDOW_AUTOSIZE);
+	namedWindow("result",WINDOW_AUTOSIZE);
+	cvtColor(img, edges, CV_BGR2GRAY);
+	imshow("original", edges);
+	GaussianBlur(edges, edges, Size(9,9), 10, 10);
+	GaussianBlur(edges, edges, Size(9,9), 10, 10);
+	//imshow("second", edges);//debug purpose
+	Canny(edges, edges, 10, 30, 3);
+	imshow("result", edges);
+	imwrite("C:\result.jpg", edges);
+	//waitKey(0);
+	return 1;
+}
