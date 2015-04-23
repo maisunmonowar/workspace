@@ -1,38 +1,48 @@
 //============================================================================
-// Name        : CameraTest.cpp
-// Author      : Maisun Monowar
-// Version     :
-// Copyright   : Your copyright notice
-// Description : Hello World in C++, Ansi-style
+// Name        : River Line.cpp
+// Author      : Maisun Monowar, Abdulla Kafi, Raihana Anto, Munir Maruf
+// Version     : 1.0
+// Copyright   : GPL V.2	
+// Description : This program takes an image file and displays edges
+//
+//Online Repository: github.com/maisunmonowar/workspace
 //============================================================================
 
-#include "opencv2/opencv.hpp"
+
+//Including files necessary to compile
 #include <iostream>
 #include <fstream>
+#include "opencv2/opencv.hpp"
 #include "opencv2/highgui/highgui.hpp"
 #include "opencv2/stitching/stitcher.hpp"
 
+//Using Standard and OpenCV Namespace
 using namespace std;
 using namespace cv;
 
+//Main function
 int main(int argc, char** argv)
 {
-	//to read an image file. Use following lines
+	//Reading Image file
 	Mat img = imread(argv[1]);
-	            if (img.empty())
-	            {
-	                cout << "Can't read image '" << argv[1] << "'\n";
-	                return -1;
-	            }
-//if source is from video. use following three lines
+	//Checking for errors
+	if (img.empty())
+	{
+		cout << "Can't read image '" << argv[1] << "'\n";
+	        return -1;
+        }
+   //if source is from video. following three lines should be used
     //VideoCapture cap(0); // open the default camera
     //if(!cap.isOpened())  // check if we succeeded
       //  return -1;
 
     Mat edges;
+    //creating display windows
     namedWindow("original",WINDOW_AUTOSIZE);
-    namedWindow("first",WINDOW_AUTOSIZE);//WINDOW_AUTOSIZE
+    namedWindow("first",WINDOW_AUTOSIZE);
     namedWindow("result",WINDOW_AUTOSIZE);
+  
+  
    //if source is video, use loop
     //for(;;)
     //{
@@ -51,5 +61,6 @@ int main(int argc, char** argv)
     //}
     // the camera will be deinitialized automatically in VideoCapture destructor
     waitKey(0);
+    //Program finished. Return an Integar
     return 1;
 }
