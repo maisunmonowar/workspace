@@ -1,6 +1,6 @@
 //============================================================================
-// Name        : green_percentage_T2.cpp
-// Author      : Maisun Monowar
+// Name        : Health_Estimation.cpp
+// Author      : Maisun Monowar, Abdulla Kafi, Raihana Antara, Munir Maruf
 // Version     : 02
 // Copyright   : GPL V.2
 // Description : This program analyzes video from default source and calculates
@@ -167,9 +167,12 @@ int main(int, char**)
         	std::cout <<percentage_healthy_green;
 
         	std::cout <<"% \n ";
-
         	std::cout <<"\n";
         	std::cout <<"\n";
+        	
+        	
+        	
+        	//Make a statement
 
         	if((int)percentage_healthy_green < 20)
         	{
@@ -194,13 +197,10 @@ int main(int, char**)
         		}
         	}
 
-        /////////////////////////////
-        cvtColor(image, edges, CV_BGR2GRAY);
-        GaussianBlur(edges, edges, Size(7,7), 1.5, 1.5);
-        Canny(edges, edges, 0, 30, 3);
-        imshow("edges", edges);
+        //break from infinite loop if user presses 'Esc' key
         if(waitKey(30) >= 0) break;
     }
     // the camera will be deinitialized automatically in VideoCapture destructor
-    return 0;
+    // Return an intergar
+    return 1;
 }
